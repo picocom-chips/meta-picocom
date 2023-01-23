@@ -13,6 +13,10 @@ INITRAMFS_IMAGE_BUNDLE = "1"
 
 NO_RECOMMENDATIONS = "1"
 
+PACKAGE_INSTALL += " \
+    packagegroup-picocom-connectivity \
+"
+
 IMAGE_INSTALL += " \
     bash \
     busybox \
