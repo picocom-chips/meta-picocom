@@ -15,6 +15,7 @@ NO_RECOMMENDATIONS = "1"
 
 PACKAGE_INSTALL += " \
     packagegroup-picocom-connectivity \
+    packagegroup-picocom-libraries \
 "
 
 IMAGE_INSTALL += " \

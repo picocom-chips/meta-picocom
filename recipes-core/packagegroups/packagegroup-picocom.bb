@@ -16,4 +16,5 @@ RDEPENDS:${PN}-connectivity = "\
 "
 
 RDEPENDS:${PN}-libraries = "\
+   libyang \
 "
