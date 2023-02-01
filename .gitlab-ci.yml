@@ -1,0 +1,37 @@
+variables:
+  LANG: en_US.UTF-8
+
+default:
+  image: ubuntu22-yocto-user 
+
+before_script:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+
+stages:          # List of stages for jobs, and their order of execution
+  - build
+
+build-job:       # This job runs in the build stage, which runs first.
+  tags:
+    - yocto
+  stage: build
+  image: ubuntu22-yocto-user
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan glhk.picocomtech.com >> ~/.ssh/known_hosts
+  script:
+    - echo "Compiling the code..."
+    - repo init -u git@glhk.picocomtech.com:yocto/manifests.git -b kirkstone
+    - repo sync
+    - export TEMPLATECONF=$(pwd)/layers/meta-picocom/conf/
+    - source layers/openembedded-core/oe-init-build-env
+    - export MACHINE=pc805
+    - export DISTRO=picocom-palladium
+    - bitbake opensbi
+    - echo "opensbi build complete"
