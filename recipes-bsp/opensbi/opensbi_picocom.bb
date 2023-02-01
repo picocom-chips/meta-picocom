@@ -9,7 +9,7 @@ SRCBRANCH = "master"
 
 SRC_URI = "git://git@glhk.picocomtech.com/tools/opensbi.git;protocol=ssh;branch=${SRCBRANCH}"
 
-SRCREV = "5d128c76bc1c02389d01d875dd8de4da7a54ce77"
+SRCREV = "${AUTOREV}"
 S = "${WORKDIR}/git"
 
 EXTRA_OEMAKE += "PLATFORM=${RISCV_SBI_PLAT} I=${D} INSTALL_LIB_PATH=lib FW_PIC=n"
