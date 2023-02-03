@@ -7,8 +7,14 @@ inherit packagegroup
 PROVIDES = "${PACKAGES}"
 
 PACKAGES = "\
+    ${PN}-base \
     ${PN}-connectivity \
     ${PN}-libraries \
+"
+
+RDEPENDS:${PN}-base = "\
+   udev \
+   systemd-initramfs \
 "
 
 RDEPENDS:${PN}-connectivity = "\

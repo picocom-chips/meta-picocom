@@ -14,6 +14,7 @@ INITRAMFS_IMAGE_BUNDLE = "1"
 NO_RECOMMENDATIONS = "1"
 
 PACKAGE_INSTALL += " \
+    packagegroup-picocom-base \
     packagegroup-picocom-connectivity \
     packagegroup-picocom-libraries \
 "
