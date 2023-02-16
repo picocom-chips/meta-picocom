@@ -14,6 +14,7 @@ PACKAGES = "\
 "
 
 RDEPENDS:${PN}-base = "\
+   kernel-modules \
    udev \
    systemd-initramfs \
 "
