@@ -23,6 +23,6 @@ do_configure() {
     fi
 }
 
-COMPATIBLE_MACHINE = "(pc805)"
+COMPATIBLE_MACHINE = "(pc805|pc803)"
 
 KERNEL_VERSION_SANITY_SKIP = "1"
