@@ -13,6 +13,7 @@ SRCREV = "${AUTOREV}"
 S = "${WORKDIR}/git"
 
 EXTRA_OEMAKE += "PLATFORM=${RISCV_SBI_PLAT} I=${D} INSTALL_LIB_PATH=lib FW_PIC=n"
+EXTRA_OEMAKE += "${OPENSBI_EXTRA_OEMAKE}"
 
 do_install:append() {
 	# In the future these might be required as a dependency for other packages.
