@@ -21,8 +21,6 @@ PACKAGE_INSTALL += " \
 "
 
 IMAGE_INSTALL += " \
-    bash \
-    busybox \
 "
 
 EXTRA_USERS_PARAMS = " \

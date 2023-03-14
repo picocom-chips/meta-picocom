@@ -14,6 +14,8 @@ PACKAGES = "\
 "
 
 RDEPENDS:${PN}-base = "\
+   bash \
+   busybox \
    kernel-modules \
    udev \
    systemd-initramfs \
