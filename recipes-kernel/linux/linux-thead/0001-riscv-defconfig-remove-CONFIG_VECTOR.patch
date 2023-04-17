@@ -1,0 +1,21 @@
+From 4213425f8fb3121a24705fa52a138ef77f563652 Mon Sep 17 00:00:00 2001
+From: "zaid.mougamadou" <zaid.mougamadou@picocom.com>
+Date: Tue, 18 Apr 2023 09:52:25 +0100
+Subject: [PATCH] riscv: defconfig: remove CONFIG_VECTOR
+
+---
+ arch/riscv/configs/defconfig | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
+index c090e7abcfc7..73b14b977f06 100644
+--- a/arch/riscv/configs/defconfig
++++ b/arch/riscv/configs/defconfig
+@@ -16,7 +16,6 @@ CONFIG_BPF_SYSCALL=y
+ CONFIG_PERF_EVENTS=y
+ CONFIG_SOC_THEAD=y
+ CONFIG_SMP=y
+-CONFIG_VECTOR=y
+ CONFIG_MODULES=y
+ CONFIG_MODULE_UNLOAD=y
+ CONFIG_PARTITION_ADVANCED=y
