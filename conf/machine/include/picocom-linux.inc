@@ -1,6 +1,9 @@
 KERNEL_CLASSES = "kernel-fitimage"
 KERNEL_IMAGETYPE = "Image"
 
+INITRAMFS_IMAGE_BUNDLE = "1"
+INITRAMFS_IMAGE = "picocom-initramfs"
+
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-picocom"
 PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot-picocom"
 
@@ -34,4 +37,3 @@ IMAGE_BOOT_FILES ?= " \
 
 ##TODO
 WKS_FILE ?= "ae350-ax45mp-spl.wks"
-
