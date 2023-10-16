@@ -17,3 +17,5 @@ SRCREV = "${AUTOREV}"
 do_compile:prepend() {
     export OPENSBI=${DEPLOY_DIR_IMAGE}/fw_dynamic.bin
 }
+
+COMPATIBLE_MACHINE = "(pc803)"

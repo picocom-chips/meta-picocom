@@ -1,0 +1,242 @@
+/dts-v1/;
+
+/ {
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	chosen {
+        bootargs = "console=ttyS0,115200 earlycon=sbi loglevel=8 root=/dev/mtdblock4";
+	};
+
+	sys_clk: sys_clk {
+		#clock-cells = <0>;
+		compatible = "fixed-clock";
+		clock-frequency = <652800000>;
+	};
+
+	per_clk: per_clk {
+		#clock-cells = <0>;
+		compatible = "fixed-clock";
+		clock-frequency = <326400000>;
+	};
+
+	eth_clk: eth_clk {
+		#clock-cells = <0>;
+		compatible = "fixed-clock";
+		clock-frequency = <99840000>;
+	};
+
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		timebase-frequency = <30720000>;
+
+		cpu0: cpu@0 {
+			device_type = "cpu";
+			compatible = "riscv";
+			clock-frequency = <998400000>;
+			riscv,priv-major = <0x1>;
+			riscv,priv-minor = <0xa>;
+			i-cache-size = <0x8000>;
+			i-cache-line-size = <0x20>;
+			i-cache-sets = <0x100>;
+			d-cache-size = <0x8000>;
+			d-cache-line-size = <0x20>;
+			d-cache-sets = <0x100>;
+			mmu-type = "riscv,sv32";
+			reg = <0>;
+			riscv,isa = "rv32imafdc";
+			status = "okay";
+			cpu0_intc: interrupt-controller {
+				#interrupt-cells = <1>;
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+			};
+		};
+	};
+
+	memory@80000000 {
+		/* DDR 512M */
+		device_type = "memory";
+		reg = <0x80000000 0x20000000>;
+	};
+
+    	reserved-memory {
+    	    #address-cells = <1>;
+    	    #size-cells = <1>;
+    	    ranges;
+
+    	    linux,cma {
+    	        compatible = "shared-dma-pool";
+    	        reusable;
+    	        size = <0x2000000>;
+    	        linux,cma-default;
+    	    };
+    	};
+
+	plic0: interrupt-controller@C800000 {
+		#interrupt-cells = <1>;
+		compatible = "riscv,plic0";
+		interrupt-controller;
+		riscv,ndev = <146>;
+		interrupts-extended =
+			<&cpu0_intc 11 &cpu0_intc 9>;
+		reg = <0xC800000 0x400000>;
+	};
+
+	plmt0@C400000 {
+		compatible = "riscv,plmt0";
+		reg = <0xC400000 0x100000>;
+		interrupts-extended = <&cpu0_intc 0x7>;
+	};
+
+	uart@8212000 {
+		compatible = "snps,dw-apb-uart";
+		reg = <0x8212000 0x100>;
+		/*clock-frequency = <325000000>;*/
+		clocks = <&per_clk>;
+		clock-names = "baudclk";
+		interrupts = <70>;
+        reg-offset = <0>;
+		reg-shift = <2>;
+		reg-io-width = <4>;
+		interrupt-parent = <&plic0>;
+		status = "okay";
+	};
+
+	dmac@10C00000 {
+		compatible = "snps,axi-dma-1.01a";
+		reg = <0x10C00000 0x10000>;
+		interrupt-parent = <&plic0>;
+		interrupts = <73>;
+		clocks = <&sys_clk>, <&per_clk>;
+		clock-names = "core-clk", "cfgr-clk";
+
+		dma-channels = <8>;
+		snps,dma-masters = <1>;
+		snps,data-width = <4>;
+		snps,block-size = <131072 131072 131072 131072 131072 131072 131072 131072>;
+		snps,priority = <0 1 2 3 4 5 6 7>;
+		snps,axi-max-burst-len = <4>;
+	};
+
+	ethernet@8480000 {
+		compatible = "snps,dwc-qos-ethernet-4.10";
+		clock-names = "phy_ref_clk", "apb_pclk";
+		clocks = <&eth_clk>, <&eth_clk>;
+		interrupt-parent = <&plic0>;
+		interrupts = <6>;
+		reg = <0x08480000 0x2000>;
+		phy-handle = <&phy2>;
+		phy-mode = "rmii";
+
+        snps,write-requests = <4>;
+        snps,read-requests = <4>;
+        snps,burst-map = <0x6>;
+        snps,txpbl = <1>;
+        snps,rxpbl = <1>;
+
+        mdio {
+            #address-cells = <0x1>;
+            #size-cells = <0x0>;
+            phy2: phy@1 {
+                compatible = "ethernet-phy-ieee802.3-c22";
+                device_type = "ethernet-phy";
+                reg = <0x1>;
+            };
+        };
+    };
+
+  	cls_mgnt@2402018 {
+        compatible = "picocom,pc805-cm";
+        reg = <0x02402018 0x14>, /*fhi cm*/
+            <0x04402018 0x14>, /*radio cm*/
+            <0x06402018 0x14>, /*dpd cm*/
+            <0x3000000 0x40000>,
+            <0x03100000 0x80000>,
+            <0x03180000 0x40000>,
+            <0x05000000 0x00060000>,
+            <0x05100000 0x00020000>,
+            <0x07000000 0x00040000>,
+            <0x07100000 0x00040000>,
+            <0x07140000 0x00040000>,
+            <0x07180000 0x00040000> ;
+    };
+
+    spi0:spi@8204000 {
+        compatible = "snps,dw-apb-ssi";
+        #address-cells = <1>;
+        #size-cells = <0>;
+        reg = <0x8204000 0x100>;
+        interrupts = <65>;
+        clocks = <&per_clk>;
+        num-cs = <2>;
+        reg-io-width = <4>;
+        interrupt-parent = <&plic0>;
+        spidev: spidev@0 {
+            spi-max-frequency = <10000000>;
+            reg = <0>;
+            compatible = "rohm,dh2228fv";
+        };
+    };
+
+    spi1:spi@8206000 {
+        compatible = "snps,dw-apb-ssi";
+        #address-cells = <1>;
+        #size-cells = <0>;
+        reg = <0x8206000 0x100>;
+        interrupts = <66>;
+        clocks = <&per_clk>;
+        reg-io-width = <4>;
+        num-cs = <4>;
+        interrupt-parent = <&plic0>;
+	        
+        spidev1: spi1dev@0 {
+            spi-max-frequency = <10000000>;
+            reg = <0>;
+            compatible = "rohm,dh2228fv";
+        };
+    };
+
+    qspi: spi@820C000 {
+		compatible = "snps,dw-apb-ssi";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <0x820C000 0x100>;
+        interrupts = <67>;
+        interrupt-parent = <&plic0>;
+		spi-max-frequency = <40000000>;
+		clocks = <&per_clk>;
+        reg-io-width = <4>;
+		spi-tx-bus-width = <4>;
+		spi-rx-bus-width = <4>;
+        num-cs = <1>;
+		spi_nand@0 {
+			compatible = "spi-nand";
+            #address-cells = <1>;
+            #size-cells = <1>;
+			reg = <0>;
+			spi-max-frequency = <40000000>;
+			partition@spl {
+				reg = <0x00000000 0x00080000>;
+				label = "spl";
+			};
+			partition@opensbi {
+				reg = <0x00080000 0x00080000>;
+				label = "opensbi";
+			};
+			partition@uboot {
+				reg = <0x00100000 0x00100000>;
+				label = "uboot";
+			};
+			partition@kernel {
+				reg = <0x00200000 0x00600000>;
+				label = "kernel";
+			};
+			partition@rootfs {
+				reg = <0x00800000 0x1f800000>;
+				label = "rootfs";
+			};
+		};
+	};
+};

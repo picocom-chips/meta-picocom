@@ -1,3 +1,0 @@
-CONF_VERSION = "2"
-
-MACHINE ?= "pc805"
