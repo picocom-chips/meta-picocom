@@ -10,3 +10,5 @@ SRCBRANCH = "th1520"
 SRC_URI = "git://git@github.com/T-head-Semi/linux.git;protocol=http;branch=${SRCBRANCH} \
            file://0001-riscv-defconfig-remove-CONFIG_VECTOR.patch \
            "
+
+COMPATIBLE_MACHINE = "(pc803)"
