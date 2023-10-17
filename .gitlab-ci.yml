@@ -12,7 +12,7 @@ before_script:
   - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
 
 stages:          # List of stages for jobs, and their order of execution
-  - build
+#  - build
 
 build-job:       # This job runs in the build stage, which runs first.
   tags:
