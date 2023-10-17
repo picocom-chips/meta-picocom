@@ -8,7 +8,7 @@ inherit autotools-brokensep deploy
 
 BRANCH = "pc805_bringup"
 SRCREV = "${AUTOREV}"
-SRC_URI = "git://git@gitlab.com/attinamirror/pico/opensbi.git;protocol=ssh;branch=${BRANCH} \
+SRC_URI = "git://git@glhk.picocomtech.com/tools/opensbi.git;protocol=ssh;branch=${BRANCH} \
 		  "
 
 S = "${WORKDIR}/git"

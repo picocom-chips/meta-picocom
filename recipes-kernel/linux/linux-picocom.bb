@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 KERNEL_VERSION_SANITY_SKIP = "1"
 
 SRCREV = "${AUTOREV}"
-BRANCH = "pc805_bringup"
-SRC_URI = "git://git@gitlab.com/attinamirror/pico/tools/linux.git;protocol=ssh;branch=${BRANCH} \
+BRANCH = "dev_pc805_bringup"
+SRC_URI = "git://git@glhk.picocomtech.com/tools/linux.git;protocol=ssh;branch=${BRANCH} \
            file://pc805_defconfig \
            file://pc805.dts \
           "

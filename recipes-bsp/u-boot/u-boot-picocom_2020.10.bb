@@ -8,7 +8,7 @@ DEPENDS:append = " bc-native u-boot-tools-native python3-setuptools-native vfw4s
 BRANCH = "dev_v2020.10"
 SRCREV = "${AUTOREV}"
 SRC_URI = " \
-    git://git@gitlab.com/attinamirror/pico/u-boot.git;protocol=ssh;branch=${BRANCH} \
+    git://git@glhk.picocomtech.com/tools/u-boot.git;protocol=ssh;branch=${BRANCH} \
     file://mmc-support.cfg \
     file://opensbi-options.cfg \
     file://tftp-mmc-boot.txt \
