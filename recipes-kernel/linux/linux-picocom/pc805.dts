@@ -5,7 +5,7 @@
 	#size-cells = <1>;
 
 	chosen {
-        bootargs = "console=ttyS0,115200 earlycon=sbi loglevel=8 root=/dev/mtdblock4";
+        bootargs = "console=ttyS0,115200 earlycon=sbi loglevel=8 root=/dev/mtdblock4 memmap160M$0x90000000";
 	};
 
 	sys_clk: sys_clk {
