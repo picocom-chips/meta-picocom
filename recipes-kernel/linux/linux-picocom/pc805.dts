@@ -5,7 +5,7 @@
 	#size-cells = <1>;
 
 	chosen {
-        bootargs = "console=ttyS0,115200 earlycon=sbi loglevel=8 root=/dev/mtdblock4 memmap160M$0x90000000";
+        bootargs = "console=ttyS0,115200 earlycon=sbi loglevel=8 root=/dev/mtdblock5 memmap160M$0x90000000";
 	};
 
 	sys_clk: sys_clk {
@@ -226,8 +226,12 @@
 				label = "opensbi";
 			};
 			partition@uboot {
-				reg = <0x00100000 0x00100000>;
+				reg = <0x00100000 0x000c0000>;
 				label = "uboot";
+			};
+			partition@ubootenv {
+				reg = <0x001c0000 0x00040000>;
+				label = "ubootenv";
 			};
 			partition@kernel {
 				reg = <0x00200000 0x00600000>;
