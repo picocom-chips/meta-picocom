@@ -5,7 +5,7 @@
 	#size-cells = <1>;
 
 	chosen {
-        bootargs = "console=ttyS0,115200 earlycon=sbi loglevel=8 root=/dev/mtdblock5 memmap160M$0x90000000";
+        bootargs = "console=ttyS0,115200 earlycon=sbi loglevel=8 root=/dev/mtdblock5";
 	};
 
 	sys_clk: sys_clk {
@@ -61,18 +61,23 @@
 		reg = <0x80000000 0x20000000>;
 	};
 
-    	reserved-memory {
-    	    #address-cells = <1>;
-    	    #size-cells = <1>;
-    	    ranges;
+	reserved-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
 
-    	    linux,cma {
-    	        compatible = "shared-dma-pool";
-    	        reusable;
-    	        size = <0x2000000>;
-    	        linux,cma-default;
-    	    };
-    	};
+		linux,cma {
+			compatible = "shared-dma-pool";
+			reusable;
+			size = <0x2000000>;
+			linux,cma-default;
+		};
+
+		icc_memory: icc_memory@5f000000 {
+			no-map;
+			reg = <0x90000000 0x0a000000>; /* 160M */
+		};
+	};
 
 	plic0: interrupt-controller@C800000 {
 		#interrupt-cells = <1>;
