@@ -153,6 +153,7 @@
 		reg = <0x08480000 0x2000>;
 		phy-handle = <&phy2>;
 		phy-mode = "rmii";
+		local-mac-address = [00 00 00 00 00 00];
 
         snps,write-requests = <4>;
         snps,read-requests = <4>;
