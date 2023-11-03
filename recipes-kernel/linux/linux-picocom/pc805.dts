@@ -8,6 +8,25 @@
         bootargs = "console=ttyS0,115200 earlycon=sbi loglevel=8 root=/dev/mtdblock5";
 	};
 
+	aliases {
+		picoem-msg0  = &picoem_msg0;
+		picoem-msg1  = &picoem_msg1;
+		picoem-msg2  = &picoem_msg2;
+		picoem-msg3  = &picoem_msg3;
+		picoem-msg4  = &picoem_msg4;
+		picoem-msg5  = &picoem_msg5;
+		picoem-msg6  = &picoem_msg6;
+		picoem-msg7  = &picoem_msg7;
+		picoem-msg8  = &picoem_msg8;
+		picoem-msg9  = &picoem_msg9;
+		picoem-msg10 = &picoem_msg10;
+		picoem-msg11 = &picoem_msg11;
+		picoem-msg12 = &picoem_msg12;
+		picoem-msg13 = &picoem_msg13;
+		picoem-msg14 = &picoem_msg14;
+		picoem-msg15 = &picoem_msg15;
+	};
+
 	sys_clk: sys_clk {
 		#clock-cells = <0>;
 		compatible = "fixed-clock";
@@ -255,128 +274,128 @@
 		memory-region = <&icc_memory>;
 	};
 
-	picoem_msg@10CD8300 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg0: picoem_msg@10CD8300 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD8300 0x4>, <0x10CD8304 0x4>, <0x10CD8308 0x4>, <0x10CD830C 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <78>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD8310 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg1: picoem_msg@10CD8310 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD8310 0x4>, <0x10CD8314 0x4>, <0x10CD8318 0x4>, <0x10CD831C 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <79>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD8320 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg2: picoem_msg@10CD8320 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD8320 0x4>, <0x10CD8324 0x4>, <0x10CD8328 0x4>, <0x10CD832C 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <80>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD8330 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg3: picoem_msg@10CD8330 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD8330 0x4>, <0x10CD8334 0x4>, <0x10CD8338 0x4>, <0x10CD833C 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <81>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD8340 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg4: picoem_msg@10CD8340 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD8340 0x4>, <0x10CD8344 0x4>, <0x10CD8348 0x4>, <0x10CD834C 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <82>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD8350 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg5: picoem_msg@10CD8350 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD8350 0x4>, <0x10CD8354 0x4>, <0x10CD8358 0x4>, <0x10CD835C 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <83>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD8360 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg6: picoem_msg@10CD8360 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD8360 0x4>, <0x10CD8364 0x4>, <0x10CD8368 0x4>, <0x10CD836C 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <84>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD8370 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg7: picoem_msg@10CD8370 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD8370 0x4>, <0x10CD8374 0x4>, <0x10CD8378 0x4>, <0x10CD837C 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <85>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD8380 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg8: picoem_msg@10CD8380 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD8380 0x4>, <0x10CD8384 0x4>, <0x10CD8388 0x4>, <0x10CD838C 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <86>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD8390 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg9: picoem_msg@10CD8390 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD8390 0x4>, <0x10CD8394 0x4>, <0x10CD8398 0x4>, <0x10CD839C 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <87>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD83A0 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg10: picoem_msg@10CD83A0 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD83A0 0x4>, <0x10CD83A4 0x4>, <0x10CD83A8 0x4>, <0x10CD83AC 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <88>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD83B0 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg11: picoem_msg@10CD83B0 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD83B0 0x4>, <0x10CD83B4 0x4>, <0x10CD83B8 0x4>, <0x10CD83BC 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <89>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD83C0 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg12: picoem_msg@10CD83C0 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD83C0 0x4>, <0x10CD83C4 0x4>, <0x10CD83C8 0x4>, <0x10CD83CC 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <90>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD83D0 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg13: picoem_msg@10CD83D0 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD83D0 0x4>, <0x10CD83D4 0x4>, <0x10CD83D8 0x4>, <0x10CD83DC 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <91>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD83E0 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg14: picoem_msg@10CD83E0 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD83E0 0x4>, <0x10CD83E4 0x4>, <0x10CD83E8 0x4>, <0x10CD83EC 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <92>;
 		interrupt-parent = <&plic0>;
 	};
 
-	picoem_msg@10CD83F0 {
-		compatible = "riscv,picoem_msg";
+	picoem_msg15: picoem_msg@10CD83F0 {
+		compatible = "picocom,picoem_msg";
 		reg = <0x10CD83F0 0x4>, <0x10CD83F4 0x4>, <0x10CD83F8 0x4>, <0x10CD83FC 0x4>;
 		reg-names = "data", "enable", "data_clear", "data_set";
 		interrupts = <93>;
