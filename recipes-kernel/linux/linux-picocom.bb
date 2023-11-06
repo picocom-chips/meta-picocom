@@ -7,7 +7,7 @@ KERNEL_VERSION_SANITY_SKIP = "1"
 
 SRCREV = "${AUTOREV}"
 BRANCH = "dev_pc805_bringup"
-SRC_URI = "git://git@glhk.picocomtech.com/tools/linux.git;protocol=ssh;branch=${BRANCH} \
+SRC_URI = "git://github.com/picocom-chips/linux.git;protocol=https;branch=${BRANCH} \
            file://pc805_defconfig \
            file://pc805.dts \
           "
