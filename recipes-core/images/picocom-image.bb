@@ -2,7 +2,8 @@ SUMMARY = "standard image for picocom pc80x board"
 
 IMAGE_INSTALL = "packagegroup-core-boot ${CORE_IMAGE_EXTRA_INSTALL} \
                 e2fsprogs mtd-utils packagegroup-core-ssh-openssh \
-                openssh-sftp-server e2fsprogs-resize2fs"
+                openssh-sftp-server e2fsprogs-resize2fs libyang \
+                libnetconf2 netopeer2 sysrepo"
 
 EXTRA_IMAGE_FEATURES += "package-management"
 
