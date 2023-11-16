@@ -1,0 +1,20 @@
+diff --git a/src/sr_cond/sr_cond_futex.c b/src/sr_cond/sr_cond_futex.c
+index c1f54351..339a3172 100644
+--- a/src/sr_cond/sr_cond_futex.c
++++ b/src/sr_cond/sr_cond_futex.c
+@@ -34,6 +34,15 @@
+ #include "log.h"
+ #include "sysrepo_types.h"
+ 
++// to fix the issue of "error: 'SYS_futex' undeclared"
++#ifndef __NR_futex
++#define __NR_futex __NR_futex_time64
++#endif
++
++#ifndef SYS_futex
++#define SYS_futex __NR_futex
++#endif
++
+ sr_error_info_t *
+ sr_cond_init(sr_cond_t *cond, int UNUSED(shared), int UNUSED(robust))
+ {
