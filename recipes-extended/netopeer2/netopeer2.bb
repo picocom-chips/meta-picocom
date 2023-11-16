@@ -7,8 +7,8 @@ inherit cmake pkgconfig
 
 SRC_URI = "git://github.com/CESNET/Netopeer2.git;protocol=https;branch=devel"
 
-PV = "2.1.38+git${SRCPV}"
-SRCREV = "3007b6f4c3052e4ba39f1956a6eab49388a3cc9b"
+PV = "2.1.71+git${SRCPV}"
+SRCREV = "3f6e921e46a5b78e93df13f60cfc88ea22b96287"
 
 S = "${WORKDIR}/git"
 
