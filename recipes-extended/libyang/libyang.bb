@@ -8,8 +8,8 @@ inherit cmake pkgconfig
 
 SRC_URI = "git://github.com/CESNET/libyang.git;protocol=https;branch=devel"
 
-PV = "2.0.256+git${SRCPV}"
-SRCREV = "56d4e07ef1cdeab3eb2e6700247f83ec9148edcc"
+PV = "2.1.128+git${SRCPV}"
+SRCREV = "7e5ea21030fe6632b6faad30c0de8d9669503773"
 
 S = "${WORKDIR}/git"
 
