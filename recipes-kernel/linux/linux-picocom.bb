@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 
 KERNEL_VERSION_SANITY_SKIP = "1"
 
-SRCREV = "${AUTOREV}"
+SRCREV = "3beafe6a3b3be93ac70f1a2fabdf3b6f8c79fb9f"
 BRANCH = "dev_pc805_bringup"
 SRC_URI = "git://github.com/picocom-chips/linux.git;protocol=https;branch=${BRANCH} \
            file://pc805_defconfig \

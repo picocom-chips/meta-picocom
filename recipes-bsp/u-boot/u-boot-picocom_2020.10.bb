@@ -6,7 +6,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 DEPENDS:append = " bc-native u-boot-tools-native python3-setuptools-native vfw4spl"
 
 BRANCH = "dev_v2020.10"
-SRCREV = "${AUTOREV}"
+SRCREV = "f4723ce028756a0e554907eadd5fabdfa727858e"
 SRC_URI = " \
     git://github.com/picocom-chips/u-boot.git;protocol=https;branch=${BRANCH} \
     file://mmc-support.cfg \
