@@ -7,6 +7,8 @@ IMAGE_INSTALL = "packagegroup-core-boot ${CORE_IMAGE_EXTRA_INSTALL} \
 
 EXTRA_IMAGE_FEATURES += "package-management"
 
+TOOLCHAIN_TARGET_TASK += "kernel-devsrc"
+
 IMAGE_LINGUAS = " "
 
 LICENSE = "MIT"
