@@ -5,10 +5,10 @@ LIC_FILES_CHKSUM = "file://Licenses/README;md5=5a7450c57ffe5ae63fd732446b988025"
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 DEPENDS:append = " bc-native u-boot-tools-native python3-setuptools-native vfw4spl"
 
-BRANCH = "dev_v2020.10"
-SRCREV = "3dc31c227c3bcd17a1af535e3a57675c171b31b1"
+BRANCH = "picocom/master"
+SRCREV = "${AUTOREV}"
 SRC_URI = " \
-    git://github.com/picocom-chips/u-boot.git;protocol=https;branch=${BRANCH} \
+    git://git@github.com/picocom-chips/u-boot.git;protocol=ssh;branch=${BRANCH} \
     file://mmc-support.cfg \
     file://opensbi-options.cfg \
     file://tftp-mmc-boot.txt \

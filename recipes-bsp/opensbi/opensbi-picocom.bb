@@ -6,9 +6,9 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 inherit autotools-brokensep deploy
 
-BRANCH = "pc805_bringup"
-SRCREV = "0ae3736be2107e8ae67303cafe2b13e5065c4ffb"
-SRC_URI = "git://github.com/picocom-chips/opensbi.git;protocol=https;branch=${BRANCH} \
+BRANCH = "picocom/master"
+SRCREV = "${AUTOREV}"
+SRC_URI = "git://git@github.com/picocom-chips/opensbi.git;protocol=ssh;branch=${BRANCH} \
 		  "
 
 S = "${WORKDIR}/git"
