@@ -124,7 +124,10 @@ do_install() {
             if [ -e arch/riscv/kernel/vdso/gen_vdso_offsets.sh ]; then
                     cp -a --parents arch/riscv/kernel/vdso/gen_vdso_offsets.sh $kerneldir/build/
             fi
-	    cp -a --parents arch/riscv/kernel/vdso/* $kerneldir/build/ 2>/dev/null || :
+            if [ -e arch/riscv/kernel/*lds ]; then
+                cp -a --parents arch/riscv/kernel/*lds $kerneldir/build/
+            fi
+           cp -a --parents arch/riscv/kernel/vdso/* $kerneldir/build/ 2>/dev/null || :
 	fi
 
 	if [ -d arch/${ARCH}/include ]; then
