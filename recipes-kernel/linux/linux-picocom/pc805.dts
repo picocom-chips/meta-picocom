@@ -5,7 +5,7 @@
 	#size-cells = <1>;
 
 	chosen {
-        bootargs = "console=ttyS0,115200 earlycon=sbi loglevel=8 root=/dev/mtdblock5";
+        bootargs = "console=ttyS0,115200 earlycon=sbi loglevel=8 rootfstype=ubifs ubi.mtd=rootfs root=ubi0:pc805-rootfs";
 	};
 
 	aliases {
