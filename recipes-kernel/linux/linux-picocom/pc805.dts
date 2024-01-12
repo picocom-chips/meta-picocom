@@ -128,7 +128,7 @@
 		status = "okay";
 	};
 
-	dmac@10C00000 {
+	sdma: dmac@10C00000 {
 		compatible = "snps,axi-dma-1.01a";
 		reg = <0x10C00000 0x10000>;
 		interrupt-parent = <&plic0>;
@@ -142,6 +142,7 @@
 		snps,block-size = <131072 131072 131072 131072 131072 131072 131072 131072>;
 		snps,priority = <0 1 2 3 4 5 6 7>;
 		snps,axi-max-burst-len = <4>;
+		#dma-cells = <1>;
 	};
 
 	ethernet@8480000 {
@@ -198,6 +199,8 @@
         num-cs = <2>;
         reg-io-width = <4>;
         interrupt-parent = <&plic0>;
+		dmas = <&sdma 2>, <&sdma 3>;
+		dma-names = "tx", "rx";
         spidev: spidev@0 {
             spi-max-frequency = <10000000>;
             reg = <0>;
@@ -215,7 +218,6 @@
         reg-io-width = <4>;
         num-cs = <4>;
         interrupt-parent = <&plic0>;
-	        
         spidev1: spi1dev@0 {
             spi-max-frequency = <10000000>;
             reg = <0>;
@@ -235,7 +237,9 @@
         reg-io-width = <4>;
 		spi-tx-bus-width = <4>;
 		spi-rx-bus-width = <4>;
-        num-cs = <1>;
+		num-cs = <1>;
+		dmas = <&sdma 0>, <&sdma 1>;
+		dma-names = "tx", "rx";
 		spi_nand@0 {
 			compatible = "spi-nand";
             #address-cells = <1>;
