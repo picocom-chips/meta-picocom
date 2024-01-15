@@ -273,6 +273,28 @@
 		};
 	};
 
+	i2c0: i2c@8216000 {
+		compatible = "snps,designware-i2c";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <0x8216000 0x100>;
+		clocks = <&per_clk>;
+		interrupts = <68>;
+		interrupt-parent = <&plic0>;
+		clock-frequency = <400000>;
+	};
+
+	i2c1: i2c@8218000 {
+		compatible = "snps,designware-i2c";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <0x8218000 0x100>;
+		clocks = <&per_clk>;
+		interrupts = <69>;
+		interrupt-parent = <&plic0>;
+		clock-frequency = <400000>;
+	};
+
 	pcxx@90000000 {
 		compatible = "picocom,pcxx";
 		reg = <0x90000000 0x620>;
