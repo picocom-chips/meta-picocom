@@ -26,6 +26,8 @@ do_install:append () {
     install -o root -g root ${S}/scripts/setup.sh ${D}/etc/netopeer2/scripts/setup.sh
     install -o root -g root ${S}/scripts/merge_hostkey.sh ${D}/etc/netopeer2/scripts/merge_hostkey.sh
     install -o root -g root ${S}/scripts/merge_config.sh ${D}/etc/netopeer2/scripts/merge_config.sh
+    install -o root -g root ${S}/scripts/remove.sh ${D}/etc/netopeer2/scripts/remove.sh
     install -d ${D}/etc/netopeer2
     install -d ${D}/etc/init.d
+    install -o root -g root ${S}/netopeer2-server ${D}/etc/init.d/netopeer2-server
 }

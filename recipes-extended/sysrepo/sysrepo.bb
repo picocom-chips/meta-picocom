@@ -7,7 +7,8 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 inherit cmake pkgconfig python3native python3-dir
 
 SRC_URI = "git://github.com/sysrepo/sysrepo.git;protocol=https;branch=devel \
-    file://sysrepo_SYS_futex_compile_issue.patch"
+    file://sysrepo_SYS_futex_compile_issue.patch \
+    file://sysrepo"
 
 PV = "2.2.117+git${SRCPV}"
 SRCREV = "0c1dc918dd5b88bcc507ed2611192333786ede9a"
@@ -28,4 +29,5 @@ do_install:append () {
     install -o root -g root ${S}/modules/ietf-netconf.yang ${D}/etc/sysrepo/yang/ietf-netconf@2011-06-01.yang
     install -d ${D}/etc/init.d
     install -d ${D}/usr/lib/sysrepo/plugins
+    install -o root -g root ${S}/sysrepo ${D}/etc/init.d/sysrepo
 }
