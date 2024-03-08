@@ -2,10 +2,12 @@ SUMMARY = "Netopeer2 is a set of tools implementing network configuration tools 
 DESCRIPTION = "Netopeer2 is based on the new generation of the NETCONF and YANG libraries - libyang and libnetconf2. The Netopeer server uses sysrepo as a NETCONF datastore implementation."
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=41daedff0b24958b2eba4f9086d782e1"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 inherit cmake pkgconfig
 
-SRC_URI = "git://github.com/CESNET/Netopeer2.git;protocol=https;branch=devel"
+SRC_URI = "git://github.com/CESNET/Netopeer2.git;protocol=https;branch=devel \
+    file://netopeer2_support_recall_home.patch"
 
 PV = "2.1.71+git${SRCPV}"
 SRCREV = "3f6e921e46a5b78e93df13f60cfc88ea22b96287"
