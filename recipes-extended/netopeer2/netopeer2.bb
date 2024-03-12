@@ -29,5 +29,5 @@ do_install:append () {
     install -o root -g root ${S}/scripts/remove.sh ${D}/etc/netopeer2/scripts/remove.sh
     install -d ${D}/etc/netopeer2
     install -d ${D}/etc/init.d
-    install -o root -g root ${S}/netopeer2-server ${D}/etc/init.d/netopeer2-server
+    install -o root -g root ${WORKDIR}/netopeer2-server ${D}/etc/init.d/netopeer2-server
 }
