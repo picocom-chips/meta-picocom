@@ -28,5 +28,5 @@ do_install:append () {
     install -o root -g root ${S}/modules/ietf-netconf.yang ${D}/etc/sysrepo/yang/ietf-netconf@2011-06-01.yang
     install -d ${D}/etc/init.d
     install -d ${D}/usr/lib/sysrepo/plugins
-    install -o root -g root ${S}/sysrepo ${D}/etc/init.d/sysrepo
+    install -o root -g root ${WORKDIR}/sysrepo ${D}/etc/init.d/sysrepo
 }
