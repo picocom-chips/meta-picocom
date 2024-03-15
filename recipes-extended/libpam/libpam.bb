@@ -21,11 +21,7 @@ B = "${S}"
 do_configure() {
     ./autogen.sh
 
-    ./configure --host=riscv32-poky-linux --enable-db=no --disable-doc --libdir=/usr/lib
+    ./configure --host=riscv32-poky-linux --enable-db=no --disable-doc --prefix=/usr
 }
 
-FILES:${PN} += "/usr/lib/security/*"
-
-do_install:append () {
-    rm -r ${D}/usr/lib/systemd
-}
+FILES:${PN} += "/lib/security/* /usr/lib/systemd/*"
