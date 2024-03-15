@@ -17,3 +17,11 @@ inherit core-image
 
 IMAGE_ROOTFS_SIZE ?= "65536"
 IMAGE_ROOTFS_EXTRA_SPACE:append = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "", d)}"
+
+inherit extrausers
+IMAGE_FEATURES:remove = "debug-tweaks"
+EXTRA_IMAGE_FEATURES:remove = "allow-root-login allow-empty-password empty-root-password"
+EXTRA_USERS_PARAMS = " \
+    useradd -p 'Ioc0d4wx/lYy6' user; \
+    usermod -p '4Xr5hrMvv82Ds' root; \
+"
