@@ -11,7 +11,7 @@ SRCREV = "635caa90787220ac3773c1d5ba11f1236c22eae8"
 
 S = "${WORKDIR}/git"
 
-DEPENDS = "openssl libgcrypt"
+DEPENDS = "openssl libxcrypt"
 
 inherit autotools
 
@@ -20,9 +20,5 @@ B = "${S}"
 
 do_configure() {
     autoreconf -fi
-    ./configure --host=riscv32-poky-linux --libdir=/usr/lib
-}
-
-do_install:append () {
-    rm -r ${D}/usr/local
+    ./configure --host=riscv32-poky-linux --prefix=/usr
 }
