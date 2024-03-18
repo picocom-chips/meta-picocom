@@ -1,0 +1,40 @@
+diff -uprN old/profile new/profile
+--- old/profile	2024-03-18 01:11:21.051258622 +0800
++++ new/profile	2024-03-18 10:34:42.079031937 +0800
+@@ -5,10 +5,10 @@ PATH="/usr/local/bin:/usr/bin:/bin"
+ [ "$TERM" ] || TERM="vt100"	# Basic terminal capab. For screen etc.
+ 
+ # Add /sbin & co to $PATH for the root user
+-[ "$HOME" != "ROOTHOME" ] || PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
++PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
+ 
+ # Set the prompt for bash and ash (no other shells known to be in use here)
+-[ -z "$PS1" ] || PS1='\u@\h:\w\$ '
++PS1='\u@\h:\w\$ '
+ 
+ if [ -d /etc/profile.d ]; then
+ 	for i in /etc/profile.d/*.sh; do
+diff -uprN old/share/dot.bashrc new/share/dot.bashrc
+--- old/share/dot.bashrc	2024-03-18 01:11:21.051258622 +0800
++++ new/share/dot.bashrc	2024-03-18 10:34:35.606775199 +0800
+@@ -1,14 +1,15 @@
+ # ~/.bashrc: executed by bash(1) for non-login shells.
+ 
+-export PS1='\h:\w\$ '
++export PS1='\u@\h:\w\$ '
+ umask 022
+ 
+ # You may uncomment the following lines if you want `ls' to be colorized:
+-# export LS_OPTIONS='--color=auto'
++export LS_OPTIONS='--color=auto'
+ # eval `dircolors`
+-# alias ls='ls $LS_OPTIONS'
+-# alias ll='ls $LS_OPTIONS -l'
+-# alias l='ls $LS_OPTIONS -lA'
++alias ls='ls $LS_OPTIONS'
++alias ll='ls $LS_OPTIONS -l'
++alias l='ls $LS_OPTIONS -lA'
++alias vim='vi'
+ #
+ # Some more alias to avoid making mistakes:
+ # alias rm='rm -i'
