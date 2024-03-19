@@ -1,0 +1,21 @@
+From 87a74b856968bdd96421988c64df20965ba95c3d Mon Sep 17 00:00:00 2001
+From: Kas User <kas@example.com>
+Date: Thu, 14 Mar 2024 09:17:22 +0800
+Subject: [PATCH] include stdint.h for missing defination of uint16_t
+
+---
+ apt-pkg/contrib/mmap.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/apt-pkg/contrib/mmap.cc b/apt-pkg/contrib/mmap.cc
+index 642e204..bb1a89b 100644
+--- a/apt-pkg/contrib/mmap.cc
++++ b/apt-pkg/contrib/mmap.cc
+@@ -28,6 +28,7 @@
+ #include <errno.h>
+ #include <stdlib.h>
+ #include <unistd.h>
++#include <stdint.h>
+ 
+ #include <apti18n.h>
+ 									/*}}}*/
