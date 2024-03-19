@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 
 KERNEL_VERSION_SANITY_SKIP = "1"
 
-SRCREV = "7d194ce750d35f6f507f82830472dfc997b08794"
-BRANCH = "dev_pc805_bringup"
+SRCREV = "200557fc9032b240b35d35033aaa39c15a11cc62"
+BRANCH = "picocom/master"
 SRC_URI = "git://github.com/picocom-chips/linux.git;protocol=https;branch=${BRANCH} \
            file://pc805_defconfig \
            file://pc805.dts \
