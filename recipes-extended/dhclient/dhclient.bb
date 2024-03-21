@@ -10,6 +10,7 @@ SRCREV = "33226f2d76b6b7a06df6b76abbb3526100f5ae2d"
 S = "${WORKDIR}/git"
 
 DEPENDS = "openssl libcap zlib"
+RDEPENDS:${PN} += " bash "
 
 inherit autotools
 
@@ -20,7 +21,7 @@ LDFLAGS:append = " -pthread"
 EXTRA_OECONF = "--host=riscv32-unknown-linux \
                 --prefix=/usr \
                 --enable-paranoia \
-                --disable-static \
+                --disable-shared \
                 --enable-libtool \
                 --with-randomdev=/dev/random \
                "
@@ -28,4 +29,18 @@ EXTRA_OECONF = "--host=riscv32-unknown-linux \
 # Enable shared libs per dhcp README
 do_configure:prepend () {
     cp configure.ac+lt configure.ac
+}
+
+do_install:append () {
+    # Remove dhcpd and dhcrelay
+    rm ${D}/usr/sbin/dhcpd
+    rm ${D}/etc/dhcpd.conf.example
+    rm ${D}/usr/sbin/dhcrelay
+
+    # Add dhclient-script
+    install -d ${D}/sbin
+    install -d ${D}/var/db
+    install -o root -g root ${S}/client/scripts/linux ${D}/sbin/dhclient-script
+    sed -i 's/chown --reference=\/etc\/resolv.conf/chown root:root/g' ${D}/sbin/dhclient-script
+    sed -i 's/chmod --reference=\/etc\/resolv.conf/chmod 0644/g' ${D}/sbin/dhclient-script
 }
