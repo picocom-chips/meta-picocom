@@ -1,0 +1,72 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:        ntp
+# Required-Start:  $network $remote_fs $syslog
+# Required-Stop:   $network $remote_fs $syslog
+# Default-Start:   2 3 4 5
+# Default-Stop:
+# Short-Description: Start NTP daemon
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+DAEMON=/usr/sbin/ntpd
+PIDFILE=/var/run/ntpd.pid
+DNS_SERVER_FILE=/etc/resolv.conf
+DEFAULT_DNS_SERVER="nameserver 8.8.8.8"
+
+# ntpd	init.d script for ntpdc from ntp.isc.org
+test -x $DAEMON -a -r /etc/ntp.conf || exit 0
+
+# check dns server
+if test -e $DNS_SERVER_FILE; then
+	echo $DEFAULT_DNS_SERVER >> $DNS_SERVER_FILE
+else
+	echo $DEFAULT_DNS_SERVER > $DNS_SERVER_FILE
+fi
+
+# Source function library.
+. /etc/init.d/functions
+
+startdaemon(){
+	echo -n "Starting ntpd: "
+	start-stop-daemon --start --quiet --oknodo --pidfile $PIDFILE --startas $DAEMON -- -q
+	echo "done"
+}
+stopdaemon(){
+	echo -n "Stopping ntpd: "
+	start-stop-daemon --stop --quiet --oknodo -p $PIDFILE
+	echo "done"
+}
+
+case "$1" in
+  start)
+	startdaemon
+	;;
+  stop)
+  	stopdaemon
+	;;
+  force-reload)
+  	stopdaemon
+	startdaemon
+	;;
+  restart)
+	stopdaemon
+	startdaemon
+	;;
+  reload)
+	stopdaemon
+	startdaemon
+	;;
+  status)
+	status /usr/sbin/ntpd;
+	exit $?
+	;;
+  *)
+	echo "Usage: ntpd { start | stop | status | restart | reload }" >&2
+	exit 1
+	;;
+esac
+
+exit 0

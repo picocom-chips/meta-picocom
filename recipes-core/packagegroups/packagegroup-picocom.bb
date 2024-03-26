@@ -35,6 +35,9 @@ RDEPENDS:${PN}-debugging= "\
 "
 
 RDEPENDS:${PN}-libraries = "\
+   libpam \
    libnetconf2 \
    libyang \
+   libmxml \
+   libssh2 \
 "
