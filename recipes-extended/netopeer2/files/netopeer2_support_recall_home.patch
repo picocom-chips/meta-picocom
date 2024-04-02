@@ -1,0 +1,100 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0679014..1b0b467 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -215,6 +215,7 @@ find_package(LibSSH 0.7.1)
+ if(LIBSSH_FOUND)
+     list(APPEND CMAKE_REQUIRED_INCLUDES ${LIBSSH_INCLUDE_DIRS})
+     list(APPEND CMAKE_REQUIRED_LIBRARIES ${LIBSSH_LIBRARIES})
++    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+ endif()
+ 
+ # dependencies - libnetconf2 (now, because we need to configure outselves based on it)
+diff --git a/src/main.c b/src/main.c
+index 38f5632..23fa797 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -849,6 +849,9 @@ server_data_subscribe(void)
+ 
+ #if defined (NC_ENABLED_SSH) || defined (NC_ENABLED_TLS)
+     /* subscribe for generic Call Home configuration changes */
++    xpath = "/ietf-netconf-server:netconf-server/call-home";
++    SR_CONFIG_SUBSCR(mod_name, xpath, np2srv_ch_cb);
++
+     xpath = "/ietf-netconf-server:netconf-server/call-home/netconf-client";
+     SR_CONFIG_SUBSCR(mod_name, xpath, np2srv_ch_client_cb);
+ 
+diff --git a/src/netconf_server.c b/src/netconf_server.c
+index baba972..b66d6e3 100644
+--- a/src/netconf_server.c
++++ b/src/netconf_server.c
+@@ -234,6 +234,55 @@ np2srv_endpt_tcp_params_cb(sr_session_ctx_t *session, uint32_t UNUSED(sub_id), c
+     return failed ? SR_ERR_CALLBACK_FAILED : SR_ERR_OK;
+ }
+ 
++/* /ietf-netconf-server:netconf-server/call-home */
++int
++np2srv_ch_cb(sr_session_ctx_t* session, uint32_t UNUSED(sub_id), const char* UNUSED(module_name), const char* xpath,
++        sr_event_t UNUSED(event), uint32_t UNUSED(request_id), void* UNUSED(private_data))
++{
++    sr_change_iter_t* iter;
++    sr_change_oper_t op;
++    const struct lyd_node* node;
++    char* xpath2;
++    int rc;
++
++    if (asprintf(&xpath2, "%s/*", xpath) == -1) {
++        EMEM;
++        return SR_ERR_NO_MEMORY;
++    }
++    rc = sr_get_changes_iter(session, xpath2, &iter);
++    free(xpath2);
++    if (rc != SR_ERR_OK) {
++        ERR("Getting changes iter failed (%s).", sr_strerror(rc));
++        return rc;
++    }
++
++    while ((rc = sr_get_change_tree_next(session, iter, &op, &node, NULL, NULL, NULL)) == SR_ERR_OK) {
++        /* augmented call-home-retry-interval */
++        if (!strcmp(node->schema->name, "call-home-retry-interval")) {
++            if ((op == SR_OP_CREATED) || (op == SR_OP_MODIFIED)) {
++                const char* interval_str;
++                int interval;
++                interval_str = lyd_get_value(node);
++                if (NULL != interval_str) {
++                    VRB("Get call-home-retry-interval: %s.", interval_str);
++                    interval = (uint16_t)atoi(interval_str);
++                    nc_ch_set_retry_interval(interval);
++                }
++            } else if (op == SR_OP_DELETED) {
++                /* use default value 1 */
++                nc_ch_set_retry_interval(1);
++            }
++        }
++    }
++    sr_free_change_iter(iter);
++    if (rc != SR_ERR_NOT_FOUND) {
++        ERR("Getting next change failed (%s).", sr_strerror(rc));
++        return rc;
++    }
++
++    return SR_ERR_OK;
++}
++
+ /* /ietf-netconf-server:netconf-server/call-home/netconf-client */
+ int
+ np2srv_ch_client_cb(sr_session_ctx_t *session, uint32_t UNUSED(sub_id), const char *UNUSED(module_name), const char *xpath,
+diff --git a/src/netconf_server.h b/src/netconf_server.h
+index c6f1daa..fd76870 100644
+--- a/src/netconf_server.h
++++ b/src/netconf_server.h
+@@ -28,6 +28,9 @@ int np2srv_idle_timeout_cb(sr_session_ctx_t *session, uint32_t sub_id, const cha
+ int np2srv_endpt_tcp_params_cb(sr_session_ctx_t *session, uint32_t sub_id, const char *module_name, const char *xpath,
+         uint32_t request_id, sr_event_t event, void *private_data);
+ 
++int np2srv_ch_cb(sr_session_ctx_t *session, uint32_t sub_id, const char *module_name, const char *xpath,
++        sr_event_t event, uint32_t request_id, void *private_data);
++
+ int np2srv_ch_client_cb(sr_session_ctx_t *session, uint32_t sub_id, const char *module_name, const char *xpath,
+         sr_event_t event, uint32_t request_id, void *private_data);
+ 
