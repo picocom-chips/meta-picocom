@@ -1,5 +1,5 @@
 diff --git a/src/session_server.c b/src/session_server.c
-index fdb4970..163b3cf 100644
+index fdb4970..c23345e 100644
 --- a/src/session_server.c
 +++ b/src/session_server.c
 @@ -3295,6 +3295,19 @@ nc_server_ch_client_set_max_attempts(const char *client_name, uint8_t max_attemp
@@ -52,29 +52,27 @@ index fdb4970..163b3cf 100644
  
              /* LOCK */
              client = nc_server_ch_client_with_endpt_lock(data->client_name);
-@@ -3653,7 +3680,21 @@ nc_ch_client_thread(void *arg)
+@@ -3653,14 +3680,17 @@ nc_ch_client_thread(void *arg)
                  /* endpoint was removed, start with the first one */
                  next_endpt_index = 0;
                  cur_attempts = 0;
 -            } else if (cur_attempts == client->max_attempts) {
 +            } else if (cur_attempts >= client->max_attempts) {
 +                VRB(NULL, "Call Home of endpoint \"%s\" failed after trying [%d] times, max_attempts [%d].", cur_endpt_name, cur_attempts, client->max_attempts);
-+                /* remove this endpoint */
-+                ret = _nc_server_ch_client_del_endpt(client, cur_endpt_name, 0);
-+                if (0 != ret) {
-+                    ERR(NULL, "Delete endpoint [%s] failed", cur_endpt_name);
-+                    goto cleanup;
-+                }
-+
-+                /* if no endpoint exists, exit thread */
-+                if (0 == client->ch_endpt_count) {
-+                    VRB(NULL, "Call Home client [%s] has no endpoint to connect. Stop connecting.", data->client_name);
-+                    goto cleanup;
-+                }
-+
                  /* we have tried to connect to this endpoint enough times */
                  if (next_endpt_index < client->ch_endpt_count - 1) {
                      /* just go to the next endpoint */
+                     ++next_endpt_index;
+                 } else {
+-                    /* cur_endpoint is the last, start with the first one */
+-                    next_endpt_index = 0;
++                    /* cur_endpoint is the last, exit the call home thread */
++                    VRB(NULL, "The Call Home of last endpoint [%s] failed, exit thread.", cur_endpt_name);
++                    nc_server_ch_client_unlock(client);
++                    goto cleanup;
+                 }
+ 
+                 cur_attempts = 0;
 diff --git a/src/session_server_ch.h b/src/session_server_ch.h
 index e8c508b..6e69f83 100644
 --- a/src/session_server_ch.h
