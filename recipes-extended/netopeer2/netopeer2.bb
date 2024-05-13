@@ -2,13 +2,17 @@ SUMMARY = "Netopeer2 is a set of tools implementing network configuration tools 
 DESCRIPTION = "Netopeer2 is based on the new generation of the NETCONF and YANG libraries - libyang and libnetconf2. The Netopeer server uses sysrepo as a NETCONF datastore implementation."
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=41daedff0b24958b2eba4f9086d782e1"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 inherit cmake pkgconfig
 
-SRC_URI = "git://github.com/CESNET/Netopeer2.git;protocol=https;branch=devel"
+SRC_URI = "git://github.com/CESNET/Netopeer2.git;protocol=https;branch=devel \
+    file://netopeer2_support_recall_home.patch \
+    file://netopeer2_disable_find_sysrepo_execute.patch \
+    file://netopeer2-server"
 
-PV = "2.1.71+git${SRCPV}"
-SRCREV = "3f6e921e46a5b78e93df13f60cfc88ea22b96287"
+PV = "2.1.36+git${SRCPV}"
+SRCREV = "57396a18046f70aeb4d05dce14fb1d1ddc9dfc39"
 
 S = "${WORKDIR}/git"
 
@@ -24,6 +28,8 @@ do_install:append () {
     install -o root -g root ${S}/scripts/setup.sh ${D}/etc/netopeer2/scripts/setup.sh
     install -o root -g root ${S}/scripts/merge_hostkey.sh ${D}/etc/netopeer2/scripts/merge_hostkey.sh
     install -o root -g root ${S}/scripts/merge_config.sh ${D}/etc/netopeer2/scripts/merge_config.sh
+    install -o root -g root ${S}/scripts/remove.sh ${D}/etc/netopeer2/scripts/remove.sh
     install -d ${D}/etc/netopeer2
     install -d ${D}/etc/init.d
+    install -o root -g root ${WORKDIR}/netopeer2-server ${D}/etc/init.d/netopeer2-server
 }

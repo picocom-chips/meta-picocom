@@ -1,0 +1,95 @@
+diff --git a/src/session_server.c b/src/session_server.c
+index fdb4970..c23345e 100644
+--- a/src/session_server.c
++++ b/src/session_server.c
+@@ -3295,6 +3295,19 @@ nc_server_ch_client_set_max_attempts(const char *client_name, uint8_t max_attemp
+     return 0;
+ }
+ 
++static int nc_ch_retry_interval = 1; /* default 1 seconds */
++
++API void nc_ch_set_retry_interval(int interval)
++{
++    nc_ch_retry_interval = interval;
++}
++
++static int nc_ch_get_retry_interval()
++{
++    return nc_ch_retry_interval;
++}
++
++
+ /* client lock is expected to be held */
+ static NC_MSG_TYPE
+ nc_connect_ch_endpt(struct nc_ch_endpt *endpt, nc_server_ch_session_acquire_ctx_cb acquire_ctx_cb,
+@@ -3540,6 +3553,8 @@ nc_ch_client_thread(void *arg)
+     struct nc_ch_client *client;
+     uint32_t client_id;
+     time_t reconnect_in;
++    int ret;
++    int interval;
+ 
+     /* LOCK */
+     client = nc_server_ch_client_with_endpt_lock(data->client_name);
+@@ -3628,7 +3643,19 @@ nc_ch_client_thread(void *arg)
+             nc_server_ch_client_unlock(client);
+ 
+             /* session was not created */
+-            usleep(NC_CH_ENDPT_FAIL_WAIT * 1000);
++            interval = nc_ch_get_retry_interval();
++            if (0 == interval) {
++                /* A value of 0 means that the O-RAN equipment shall disable operation of the timer triggered NETCONF call home procedure. */
++                VRB(NULL, "Call Home interval is set to 0. Stop call home procedure immediately.");
++                goto cleanup;
++            }
++
++            if (0 == client->max_attempts) {
++                /* In case counter is set with value zero, O-RU shall not repeat Call Home procedure */
++                goto cleanup;
++            }
++
++            sleep(interval);
+ 
+             /* LOCK */
+             client = nc_server_ch_client_with_endpt_lock(data->client_name);
+@@ -3653,14 +3680,17 @@ nc_ch_client_thread(void *arg)
+                 /* endpoint was removed, start with the first one */
+                 next_endpt_index = 0;
+                 cur_attempts = 0;
+-            } else if (cur_attempts == client->max_attempts) {
++            } else if (cur_attempts >= client->max_attempts) {
++                VRB(NULL, "Call Home of endpoint \"%s\" failed after trying [%d] times, max_attempts [%d].", cur_endpt_name, cur_attempts, client->max_attempts);
+                 /* we have tried to connect to this endpoint enough times */
+                 if (next_endpt_index < client->ch_endpt_count - 1) {
+                     /* just go to the next endpoint */
+                     ++next_endpt_index;
+                 } else {
+-                    /* cur_endpoint is the last, start with the first one */
+-                    next_endpt_index = 0;
++                    /* cur_endpoint is the last, exit the call home thread */
++                    VRB(NULL, "The Call Home of last endpoint [%s] failed, exit thread.", cur_endpt_name);
++                    nc_server_ch_client_unlock(client);
++                    goto cleanup;
+                 }
+ 
+                 cur_attempts = 0;
+diff --git a/src/session_server_ch.h b/src/session_server_ch.h
+index e8c508b..6e69f83 100644
+--- a/src/session_server_ch.h
++++ b/src/session_server_ch.h
+@@ -192,6 +192,15 @@ int nc_server_ch_client_set_start_with(const char *client_name, NC_CH_START_WITH
+  */
+ int nc_server_ch_client_set_max_attempts(const char *client_name, uint8_t max_attempts);
+ 
++/**
++ * @brief Change call home retry interval(seconds).
++ *
++ * This is only valid on SSH/TLS transport endpoint.
++ *
++ * @param[in] interval Call home interval between 2 retries.
++ */
++void nc_ch_set_retry_interval(int interval);
++
+ /**
+  * @brief Callback for getting a locked context for new Call Home sessions.
+  *
