@@ -285,7 +285,7 @@
 		clocks = <&per_clk>;
 		interrupts = <68>;
 		interrupt-parent = <&plic0>;
-		clock-frequency = <400000>;
+		clock-frequency = <100000>;
 	};
 
 	i2c1: i2c@8218000 {
@@ -296,7 +296,7 @@
 		clocks = <&per_clk>;
 		interrupts = <69>;
 		interrupt-parent = <&plic0>;
-		clock-frequency = <400000>;
+		clock-frequency = <100000>;
 	};
 
 	pcxx@90000000 {
