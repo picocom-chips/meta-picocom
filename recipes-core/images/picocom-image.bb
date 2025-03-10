@@ -26,7 +26,7 @@ USER_NAME = "user"
 USER_PASSWORD = "Ioc0d4wx/lYy6"
 
 # add sudo, rsync, xmllint command.
-IMAGE_INSTALL:append = "sudo rsync libxml2-utils tzdata dhclient cronie rsyslog logrotate "
+IMAGE_INSTALL:append = "sudo rsync libxml2-utils tzdata dhclient cronie rsyslog logrotate wpa-supplicant"
 
 EXTRA_USERS_PARAMS = " \
     useradd -p '${USER_PASSWORD}' ${USER_NAME}; \
